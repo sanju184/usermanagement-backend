@@ -7,10 +7,8 @@ const createEmployee = async(req,res)=>{
      const { name, email, position,salary } = req.body;
 
      try{
-         if (!name || !email || !position || !salary) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
-   const existEmployees = await employee.findOne({email});
+         
+     const existEmployees = await employee.findOne({email});
 
        if(existEmployees){
         return res.status(400).json({error:"user allready exist"});
@@ -19,9 +17,10 @@ const createEmployee = async(req,res)=>{
         
         const newEmployee = await employee.create({name, email, position, salary});
         res.status(201).json(
-            {
+            {   
+                success : true,
                 message:"Employee created successfully",
-                employee:newEmployee
+                data:newEmployee
             }
         )
        
