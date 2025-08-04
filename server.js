@@ -8,8 +8,14 @@ const employeeRoutes=require('./routes/employeeRoutes');
 
 dotenv.config();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true  
+}));
+
 app.use(express.json());
+// Serve uploads folder for user photos
+app.use('/uploads', express.static('uploads'));
 
 mongoose
   .connect(process.env.MONGO_URL, {

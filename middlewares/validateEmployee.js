@@ -4,7 +4,7 @@ const validateEmployees = [
     body("name").notEmpty().withMessage("Name is Require"),
     body("email").isEmail().withMessage("Valid email is required"),
     body("position").notEmpty().withMessage("Position is required"),
-    body("salary").isNumeric().withMessage("Salary must be a number"),
+    body("salary").isNumeric().withMessage("Salary must be a number or require "),
 
     (req,res,next)=>{
         const  errors = validationResult(req);

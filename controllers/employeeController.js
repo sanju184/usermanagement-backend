@@ -5,6 +5,9 @@ const employee = require('../models/employee');
 
 const createEmployee = async(req,res)=>{
      const { name, email, position,salary } = req.body;
+      const photo = req.file ? req.file.filename : null;
+
+      
 
      try{
          
@@ -15,7 +18,7 @@ const createEmployee = async(req,res)=>{
 
        }
         
-        const newEmployee = await employee.create({name, email, position, salary});
+        const newEmployee = await employee.create({name, email, position, salary,photo});
         res.status(201).json(
             {   
                 success : true,
@@ -51,19 +54,35 @@ const getEmployeeById = async(req,res)=>{
        }
 }
 
-const updateEmployee = async(req,res)=>{
-         try{
-              const updateEmp = await employee.findByIdAndUpdate(
-                req.params.id,
-                req.body,
-                {new:true}
-                
-            );
-            res.status(200).json(updateEmp);
-         }catch(err){
-            res.status(400).json({message:"error in update employee", error: err.message });
-         }
-}
+const updateEmployee = async (req, res) => {
+
+     
+  try {
+    let updateData = { ...req.body };
+    if (req.file) {
+      updateData.photo = req.file.filename;
+    }
+    const updateEmp = await employee.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updateEmp) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json({
+      message: "Update Successfully",
+      data: updateEmp
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: "Error in updating employee",
+      error: err.message
+    });
+  }
+};
 
 
 const deleteEmployee = async(req,res)=>{
