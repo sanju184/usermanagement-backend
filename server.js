@@ -9,7 +9,7 @@ const employeeRoutes=require('./routes/employeeRoutes');
 dotenv.config();
 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://usermanagement-client-azure.vercel.app/", 
   credentials: true  
 }));
 
